@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Super Image Resolution</string>
+    <string name="SuperImageResolution">Super Image Resolution</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="enter_user_email">Enter Email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_user_name">Enter Username</string>
+    <string name="enter_password_again">Confirm Password</string>
+    <string name="KEY_DISPLAY_NAME">KEY_DISPLAY_NAME</string>
+    <string name="log_out">Log out</string>
+    <string name="settings">Settings</string>
+    <string name="logout_msg">Logging out</string>
+    <string name="createAnaccount">Create a new account</string>
+    <string name="choose_image">Choose image</string>
+    <string name="captureimage">Capture image</string>
+    <string name="enhance_your_image_in_a_click">Enhance your image in a click</string>
 </resources>
