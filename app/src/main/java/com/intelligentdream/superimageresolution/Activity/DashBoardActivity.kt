@@ -40,7 +40,7 @@ class DashBoardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.intelligentdream.superimageresolution.R.layout.activity_dash_board)
-        supportActionBar!!.title = "Dashboard"
+        supportActionBar!!.title = "My DashBoard"
 
         mAuth = FirebaseAuth.getInstance()
         currentUser = mAuth?.currentUser
@@ -134,12 +134,21 @@ class DashBoardActivity : AppCompatActivity() {
 
                 val uploadTask = originalImageFilePath.putFile(uri)
 
-                uploadTask.addOnCompleteListener { task: Task<UploadTask.TaskSnapshot> ->
+
+                val urlTask = uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    return@Continuation originalImageFilePath.downloadUrl
+                }).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        val downloadUri = task.result
                         Toast.makeText(this, "Uploaded the image success", Toast.LENGTH_LONG).show()
 
                         val downloadOriginalImageUrl =
-                            task.result!!.metadata!!.reference!!.downloadUrl.toString()
+                            downloadUri.toString()
 
 
                         Toast.makeText(this, downloadOriginalImageUrl, Toast.LENGTH_LONG).show()
@@ -171,13 +180,12 @@ class DashBoardActivity : AppCompatActivity() {
 
                             }
 
+                    } else {
+                        // Handle failures
+                        // ...
                     }
                 }
-                    .addOnSuccessListener { taskSnapshot: UploadTask.TaskSnapshot? ->
-                        {
 
-                        }
-                    }
 
             }
         }
