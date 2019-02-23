@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                              xmlns:tools="http://schemas.android.com/tools"
+                                              android:layout_margin="4dp"
+
+                                              android:layout_width="match_parent"
+                                              android:layout_height="wrap_content">
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+        <ImageView android:layout_width="100dp" android:layout_height="100dp"
+                   android:layout_alignParentStart="true"
+                   android:layout_margin="2dp"
+                   android:scaleType="centerCrop"
+                   tools:src="@drawable/ic_launcher_background"
+                   android:id="@+id/iv_original" android:layout_alignParentLeft="true"/>
+
+        <ImageView android:layout_width="100dp"
+                   android:layout_margin="2dp"
+                   android:scaleType="centerCrop" android:layout_height="100dp"
+                   android:layout_alignParentEnd="true"
+                   tools:src="@drawable/processing"
+                   android:id="@+id/iv_super" android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+</android.support.design.card.MaterialCardView>

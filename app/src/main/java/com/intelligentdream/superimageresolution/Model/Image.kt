@@ -1,3 +1,6 @@
 package com.intelligentdream.superimageresolution.Model
 
-data class Image(var Imgid: String, var original: String, var Superimg: String)
+data class Image(var Imgid: String, var original: String, var Superimg: String){
+
+    constructor() : this("", "","")
+}

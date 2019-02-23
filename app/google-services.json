@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "148015484988",
+    "firebase_url": "https://superimageresolution.firebaseio.com",
+    "project_id": "superimageresolution",
+    "storage_bucket": "superimageresolution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148015484988:android:804f5a6cdc66694c",
+        "android_client_info": {
+          "package_name": "com.intelligentdream.superimageresolution"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148015484988-nvbi86f6f1q7dfdla6k8kv6r9h3a7c30.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.intelligentdream.superimageresolution",
+            "certificate_hash": "4addb587b08b60ec12cfeee57833dced4eb0686d"
+          }
+        },
+        {
+          "client_id": "148015484988-u9uqr444ckdops3vp5dgc8pdflaavtto.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFZaVB1-wDM-aUJwM6FIPoJsiaJ56WFyE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148015484988-u9uqr444ckdops3vp5dgc8pdflaavtto.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

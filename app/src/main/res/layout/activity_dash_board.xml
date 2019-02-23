@@ -62,10 +62,28 @@
         </android.support.v7.widget.CardView>
 
 
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_below="@id/cv_new_item"
+                  android:id="@+id/tv_HistoryofItems"
+                  android:text="Your Images"
+
+
+                  android:layout_gravity="center"
+                  android:gravity="center"
+                  android:textColor="@color/white"
+                  android:textStyle="bold"
+                  android:layout_margin="10dp"
+                  android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+
+        />
+
         <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
-                                                android:layout_below="@id/cv_new_item"
+
+                                                android:layout_below="@id/tv_HistoryofItems"
+                                                android:layout_margin="4dp"
+
                                                 android:id="@+id/rv_history"
-                                                android:layout_height="wrap_content">
+                                                android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>

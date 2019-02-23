@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -16,11 +17,11 @@ import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.intelligentdream.superimageresolution.Adapter.HistoryAdapter
 import com.intelligentdream.superimageresolution.Helpers.IMAGE_PICK_CODE
 import com.intelligentdream.superimageresolution.Helpers.PERMISSION_CODE
 import com.intelligentdream.superimageresolution.Model.Image
@@ -37,6 +38,7 @@ class DashBoardActivity : AppCompatActivity() {
     var dialog: AlertDialog? = null
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.intelligentdream.superimageresolution.R.layout.activity_dash_board)
@@ -47,17 +49,57 @@ class DashBoardActivity : AppCompatActivity() {
         mDatabase = FirebaseDatabase.getInstance().reference.child("Users")
         mStorageRef = FirebaseStorage.getInstance().reference.child("Images")
 
+        rv_history.setHasFixedSize(true)
+        val llm = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL, false)
+
+        rv_history.layoutManager = llm
+
+        val rootRef = mDatabase!!.child(currentUser!!.uid)
+        rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                var imgList = mutableListOf<Image>()
+                if(snapshot.exists())
+                {
+                    val children = snapshot.children
+                    for(h in children)
+                    {
+                        val imObj = h.getValue(Image::class.java)
+                        if (imObj != null) {
+                           imgList.add(imObj)
+                        }
+                    }
+
+                }
+
+                val adapter = HistoryAdapter(imgList, baseContext)
+                rv_history.adapter = adapter
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                println(error.message)
+            }
+
+
+        })
+
         btn_choose_pic.setOnClickListener {
             pickImageFromGalley()
         }
 
 
+        createAlertDialog()
+
+
+    }
+
+    private fun createAlertDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Uploading Image")
         builder.setMessage("Please Wait Your Image is being Uploaded.")
 
         dialog = builder.create()
-
 
     }
 
