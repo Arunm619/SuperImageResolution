@@ -15,4 +15,7 @@
     <string name="choose_image">Choose image</string>
     <string name="captureimage">Capture image</string>
     <string name="enhance_your_image_in_a_click">Enhance your image in a click</string>
+    <string name="dummylink">Dummy</string>
+    <string name="KEY_ORIGINAL_LINK">originallink</string>
+    <string name="KEY_SUPER_LINK">superlink</string>
 </resources>

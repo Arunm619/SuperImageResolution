@@ -1,17 +1,20 @@
 package com.intelligentdream.superimageresolution.Activity
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
@@ -36,7 +39,8 @@ class DashBoardActivity : AppCompatActivity() {
     var currentUser: FirebaseUser? = null
     var mStorageRef: StorageReference? = null
     var dialog: AlertDialog? = null
-
+    var imgList = mutableListOf<Image>()
+    lateinit var adapter: HistoryAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +54,9 @@ class DashBoardActivity : AppCompatActivity() {
         mStorageRef = FirebaseStorage.getInstance().reference.child("Images")
 
         rv_history.setHasFixedSize(true)
-        val llm = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL, false)
+        rv_history.isNestedScrollingEnabled = false
+
+        val llm = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL, true)
 
         rv_history.layoutManager = llm
 
@@ -58,23 +64,21 @@ class DashBoardActivity : AppCompatActivity() {
         rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                var imgList = mutableListOf<Image>()
-                if(snapshot.exists())
-                {
+                if (snapshot.exists()) {
                     val children = snapshot.children
-                    for(h in children)
-                    {
+                    for (h in children) {
                         val imObj = h.getValue(Image::class.java)
                         if (imObj != null) {
-                           imgList.add(imObj)
+                            imgList.add(imObj)
                         }
                     }
 
                 }
 
-                val adapter = HistoryAdapter(imgList, baseContext)
+                adapter = HistoryAdapter(imgList, baseContext)
                 rv_history.adapter = adapter
                 adapter.notifyDataSetChanged()
+                progressBar.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -99,7 +103,9 @@ class DashBoardActivity : AppCompatActivity() {
         builder.setTitle("Uploading Image")
         builder.setMessage("Please Wait Your Image is being Uploaded.")
 
+
         dialog = builder.create()
+
 
     }
 
@@ -134,7 +140,8 @@ class DashBoardActivity : AppCompatActivity() {
                     //granted
                     pickImageFromGalleyUtils()
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
+                  //  Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
+                    Snackbar.make(Parentdashboard,"Permission Denied",Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -187,35 +194,41 @@ class DashBoardActivity : AppCompatActivity() {
                 }).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val downloadUri = task.result
-                        Toast.makeText(this, "Uploaded the image success", Toast.LENGTH_LONG).show()
+                      //  Toast.makeText(this, "Uploaded the image success", Toast.LENGTH_LONG).show()
 
                         val downloadOriginalImageUrl =
                             downloadUri.toString()
 
 
-                        Toast.makeText(this, downloadOriginalImageUrl, Toast.LENGTH_LONG).show()
+                      //  Toast.makeText(this, downloadOriginalImageUrl, Toast.LENGTH_LONG).show()
                         val LinktoOriginalImage = downloadOriginalImageUrl
-                        val LinktoSuperImage = "link to super image"
+                        val LinktoSuperImage = getString(R.string.dummylink)
 
                         val Image = Image(randomID, LinktoOriginalImage, LinktoSuperImage)
+
+                        imgList.add(Image)
+                        adapter.notifyDataSetChanged()
 
 
                         mDatabase!!.child(userId).push().setValue(Image)
                             .addOnCompleteListener { task: Task<Void> ->
                                 if (task.isSuccessful) {
 
-                                    Toast.makeText(this, "updated", Toast.LENGTH_LONG).show()
+                                 //   Toast.makeText(this, "updated", Toast.LENGTH_LONG).show()
+                                    Snackbar.make(Parentdashboard,"File Uploaded. Started Processing.",Snackbar.LENGTH_LONG).show()
+
                                     // pb_loading.visibility = View.GONE
 
                                     dialog?.dismiss()
                                 } else {
 
-                                    Toast.makeText(
+                                    /*Toast.makeText(
+
                                         this,
                                         "try again bro ${task.exception.toString().split(":")[0]}",
                                         Toast.LENGTH_LONG
                                     ).show()
-
+*/
                                     // Snackbar.make(rl_signupActivity, task.exception.toString(), Snackbar.LENGTH_LONG).show()
 
                                 }

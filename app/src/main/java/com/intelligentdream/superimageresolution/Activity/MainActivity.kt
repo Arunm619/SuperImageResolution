@@ -42,13 +42,15 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, DashBoardActivity::class.java)
 
                 startActivity(intent)
-                Toast.makeText(this, "Welcome User - ${user?.uid}", Toast.LENGTH_LONG).show()
+                //   Toast.makeText(this, "Welcome User - ${user?.uid}", Toast.LENGTH_LONG).show()
 
                 finish()
 
 
             } else {
-                Toast.makeText(this, "Not signed in", Toast.LENGTH_LONG).show()
+                Snackbar.make(ParentMain, "Please Authenticate", Snackbar.LENGTH_LONG).show()
+
+                //Toast.makeText(this, "Please Sign in", Toast.LENGTH_LONG).show()
             }
         }
 
