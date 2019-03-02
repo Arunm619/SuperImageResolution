@@ -48,7 +48,8 @@ class MainActivity : AppCompatActivity() {
 
 
             } else {
-                Snackbar.make(ParentMain, "Please Authenticate", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(ParentMain, "Login with your account or Create a new One ", Snackbar.LENGTH_INDEFINITE)
+                    .show()
 
                 //Toast.makeText(this, "Please Sign in", Toast.LENGTH_LONG).show()
             }

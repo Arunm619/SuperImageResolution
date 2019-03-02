@@ -78,6 +78,7 @@
 
         />
 
+
         <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
 
                                                 android:layout_below="@id/tv_HistoryofItems"
@@ -88,7 +89,23 @@
 
         </android.support.v7.widget.RecyclerView>
 
+        <RelativeLayout
 
+                android:layout_below="@id/tv_HistoryofItems"
+                android:layout_margin="4dp"
+
+                android:id="@+id/view_empty"
+                android:visibility="gone"
+                android:background="@color/colorAccent"
+
+                android:layout_width="match_parent" android:layout_height="300dp">
+
+            <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+                       android:src="@drawable/empty"
+            />
+
+        </RelativeLayout>
 
 
         <ProgressBar android:layout_width="wrap_content"
@@ -101,7 +118,6 @@
         />
 
     </RelativeLayout>
-
 
 
 </ScrollView>

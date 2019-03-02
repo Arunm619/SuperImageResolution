@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -79,6 +80,17 @@ class DashBoardActivity : AppCompatActivity() {
                 rv_history.adapter = adapter
                 adapter.notifyDataSetChanged()
                 progressBar.visibility = View.GONE
+
+
+
+                if (adapter.itemCount == 0) {
+                    view_empty.visibility = View.VISIBLE
+
+                } else {
+                    view_empty.visibility = View.GONE
+
+                }
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -101,6 +113,7 @@ class DashBoardActivity : AppCompatActivity() {
     private fun createAlertDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Uploading Image")
+        builder.setIcon(R.drawable.processing)
         builder.setMessage("Please Wait Your Image is being Uploaded.")
 
 
@@ -140,8 +153,8 @@ class DashBoardActivity : AppCompatActivity() {
                     //granted
                     pickImageFromGalleyUtils()
                 } else {
-                  //  Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
-                    Snackbar.make(Parentdashboard,"Permission Denied",Snackbar.LENGTH_LONG).show()
+                    //  Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
+                    Snackbar.make(Parentdashboard, "Permission Denied", Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -167,13 +180,13 @@ class DashBoardActivity : AppCompatActivity() {
 
             mStorageRef = mStorageRef!!.child(userId).child(randomID)
 
-            var originalImageFilePath = mStorageRef!!.child("originalImage.jpg")
-            var superImageFilePath = mStorageRef!!.child("superImage.jpg")
+            val originalImageFilePath = mStorageRef!!.child("originalImage.jpg")
+            val superImageFilePath = mStorageRef!!.child("superImage.jpg")
             val uri = data?.data
             if (uri != null) {
 
 
-                var imageUri = Uri.parse(
+                val imageUri = Uri.parse(
                     ContentResolver.SCHEME_ANDROID_RESOURCE +
                             "://" + resources.getResourcePackageName(com.intelligentdream.superimageresolution.R.drawable.loading)
                             + '/'.toString() + resources.getResourceTypeName(com.intelligentdream.superimageresolution.R.drawable.loading) +
@@ -194,13 +207,13 @@ class DashBoardActivity : AppCompatActivity() {
                 }).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val downloadUri = task.result
-                      //  Toast.makeText(this, "Uploaded the image success", Toast.LENGTH_LONG).show()
+                        //  Toast.makeText(this, "Uploaded the image success", Toast.LENGTH_LONG).show()
 
                         val downloadOriginalImageUrl =
                             downloadUri.toString()
 
 
-                      //  Toast.makeText(this, downloadOriginalImageUrl, Toast.LENGTH_LONG).show()
+                        //  Toast.makeText(this, downloadOriginalImageUrl, Toast.LENGTH_LONG).show()
                         val LinktoOriginalImage = downloadOriginalImageUrl
                         val LinktoSuperImage = getString(R.string.dummylink)
 
@@ -209,17 +222,31 @@ class DashBoardActivity : AppCompatActivity() {
                         imgList.add(Image)
                         adapter.notifyDataSetChanged()
 
+                        if (adapter.itemCount == 0) {
+                            view_empty.visibility = View.VISIBLE
+
+                        } else {
+                            view_empty.visibility = View.GONE
+
+                        }
+
 
                         mDatabase!!.child(userId).push().setValue(Image)
                             .addOnCompleteListener { task: Task<Void> ->
                                 if (task.isSuccessful) {
 
-                                 //   Toast.makeText(this, "updated", Toast.LENGTH_LONG).show()
-                                    Snackbar.make(Parentdashboard,"File Uploaded. Started Processing.",Snackbar.LENGTH_LONG).show()
+
+                                    dialog?.dismiss()
+
+                                    //   Toast.makeText(this, "updated", Toast.LENGTH_LONG).show()
+                                    Snackbar.make(
+                                        Parentdashboard,
+                                        "File Uploaded. Started Processing.",
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
 
                                     // pb_loading.visibility = View.GONE
 
-                                    dialog?.dismiss()
                                 } else {
 
                                     /*Toast.makeText(
@@ -276,4 +303,22 @@ class DashBoardActivity : AppCompatActivity() {
     }
 
 
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        // Toast.makeText(this, "Please click Back again to exit", Toast.LENGTH_SHORT).show()
+
+        Snackbar.make(
+            Parentdashboard,
+            "Click Back again to Exit the app",
+            Snackbar.LENGTH_LONG
+        ).show()
+
+        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
+    }
 }
