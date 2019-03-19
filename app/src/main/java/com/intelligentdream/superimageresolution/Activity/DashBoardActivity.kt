@@ -47,6 +47,13 @@ class DashBoardActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val arr = arrayListOf(R.style.AppTheme, R.style.OrangeTheme, R.style.PinkTheme, R.style.GreyTheme)
+
+        val rnd = (0..3).random()
+        setTheme(arr[rnd])
+
+
         super.onCreate(savedInstanceState)
         setContentView(com.intelligentdream.superimageresolution.R.layout.activity_dash_board)
         supportActionBar!!.title = "DashBoard"
@@ -61,7 +68,9 @@ class DashBoardActivity : AppCompatActivity() {
 
         val llm = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL, true)
 
+        llm.stackFromEnd = true
         rv_history.layoutManager = llm
+
 
         val rootRef = mDatabase!!.child(currentUser!!.uid)
         rootRef.addValueEventListener(object : ValueEventListener {

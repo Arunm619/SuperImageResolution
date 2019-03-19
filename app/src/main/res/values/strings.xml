@@ -20,4 +20,6 @@
     <string name="KEY_SUPER_LINK">superlink</string>
     <string name="loadingtext">Loading...</string>
     <string name="share_using">Share Using</string>
+    <string name="share">Share</string>
+    <string name="copyrights_2019_intelligent_dream">Copyrights 2019 Intelligent Dream</string>
 </resources>
