@@ -39,19 +39,21 @@ class HistoryAdapter(var list: MutableList<Image>, private val mContext: Context
 
 
         Glide.with(mContext).load(img.original).into(holder.iv_original)
-        if (!img.Superimg.equals(mContext.getString(R.string.dummylink)))
+        if (img.Superimg != mContext.getString(R.string.dummylink)) {
+            holder.iv_super.setBackgroundResource(0)
             Glide.with(mContext).load(img.Superimg).into(holder.iv_super)
 
+        }
 
         holder.setItemClickListener(object : ItemClickListener {
             override fun onClick(view: View, position: Int, isLongClick: Boolean) {
                 if (!isLongClick) {
 
-                    val img = list[position]
+                    val img: Image = list[position]
                     val intent = Intent(mContext, ViewPictureActivity::class.java)
                     intent.putExtra(mContext.getString(R.string.KEY_ORIGINAL_LINK), img.original)
                     intent.putExtra(mContext.getString(R.string.KEY_SUPER_LINK), img.Superimg)
-
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     mContext.startActivity(intent)
 
                 }

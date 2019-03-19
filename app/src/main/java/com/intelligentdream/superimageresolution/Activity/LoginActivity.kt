@@ -1,5 +1,6 @@
 package com.intelligentdream.superimageresolution.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : AppCompatActivity() {
     var mAuth: FirebaseAuth? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -24,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         btn_login_submit.setOnClickListener {
+
             val email = et_login_mail.text.toString()
             val password = et_login_password.text.toString()
 
@@ -47,7 +50,9 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            logIn(email, password)
+
+            btn_login_submit.text = getString(R.string.loadingtext)
+            logIn(email, password.trim())
         }
 
     }
@@ -65,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
                     finish()
 
                 } else {
+                    btn_login_submit.text = getString(R.string.login)
                     Snackbar.make(
                         rl_LoginActivity, task.exception.toString().split(":")[1],
                         Snackbar.LENGTH_LONG
@@ -76,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        startActivity(Intent(baseContext,MainActivity::class.java))
+        startActivity(Intent(baseContext, MainActivity::class.java))
         finish()
     }
 }

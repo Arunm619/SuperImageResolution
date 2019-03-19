@@ -66,6 +66,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
 
+            btn_sign_up_submit.text = getString(R.string.loadingtext)
             createAccount(userName, email, password)
 
 
@@ -84,36 +85,6 @@ class SignUpActivity : AppCompatActivity() {
                     val userId = currentUser!!.uid
 
 
-                    /*   val userSettings = UserSettings(userName, "", "")
-
-                       userSettings.Image = "null"
-                       userSettings.Status = "Hey there I am using Messaing App"
-                       userSettings.ThumbNail = "null"
-
-                       Toast.makeText(this, userId, Toast.LENGTH_LONG).show()
-                       mDatabase = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
-
-                       mDatabase!!.setValue(userSettings).addOnCompleteListener { task: Task<Void> ->
-                           if (task.isSuccessful) {
-
-                               Toast.makeText(this, "Vardhu vardhu", Toast.LENGTH_LONG).show()
-
-                               Snackbar.make(rl_signupActivity, "User Created SUccessfull", Snackbar.LENGTH_LONG).show()
-
-                           } else {
-
-                               Toast.makeText(
-                                   this,
-                                   "try again bro ${task.exception.toString().split(":")[0]}",
-                                   Toast.LENGTH_LONG
-                               ).show()
-
-                               Snackbar.make(rl_signupActivity, task.exception.toString(), Snackbar.LENGTH_LONG).show()
-
-                           }
-
-                       }
-   */
 
                     val intent = Intent(this, DashBoardActivity::class.java)
                     intent.putExtra(getString(R.string.KEY_DISPLAY_NAME), userName)
@@ -121,7 +92,8 @@ class SignUpActivity : AppCompatActivity() {
                     finish()
                 } else {
 
-//                    Toast.makeText(this, "try again bro ${task.exception.toString().split(":")[0]}", Toast.LENGTH_LONG)
+                    btn_sign_up_submit.text = getString(R.string.sign_up)
+//            Toast.makeText(this, "try again bro ${task.exception.toString().split(":")[0]}", Toast.LENGTH_LONG)
                     //                      .show()
                     Snackbar.make(rl_signupActivity, task.exception.toString().split(":")[1], Snackbar.LENGTH_LONG)
                         .show()

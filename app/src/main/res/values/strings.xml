@@ -18,4 +18,6 @@
     <string name="dummylink">Dummy</string>
     <string name="KEY_ORIGINAL_LINK">originallink</string>
     <string name="KEY_SUPER_LINK">superlink</string>
+    <string name="loadingtext">Loading...</string>
+    <string name="share_using">Share Using</string>
 </resources>
